@@ -1,11 +1,15 @@
 {
-  "name": "neighborhood-map",
+  "name": "",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "ajv": "^6.0.0",
+    "normalize.css": "^8.0.0",
+    "prop-types": "^15.6.2",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
-    "react-scripts": "2.0.5"
+    "react-scripts": "2.0.5",
+    "throttle-debounce": "^2.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
