@@ -14,11 +14,13 @@ Empty React project folder.
 
 *To Start New Project*
 - Update package.json name
+- Update manifest.json 
 - Update repository name in [View Page](#view-page)
 - Update [index.html](#public.index.html)
 
 ## View Page
 ### Online
+Not available at this time, will deploy from [react-gh-pages](https://github.com/gitname/react-gh-pages) in the future.
 
 ### localhost
   1) ```clone https://github.com/CrystalYungwirth/react-kit.git```
@@ -28,11 +30,7 @@ Empty React project folder.
 
   App will be shown on localhost:3000
 
-## Dependencies
- * This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
- * [prop-types](https://www.npmjs.com/package/prop-types)
- * [throttle-debounce](https://www.npmjs.com/package/throttle-debounce)
- * [normalize.css](https://www.npmjs.com/package/normalize.css/)
+## [Dependencies](public/manifest.json)
 
 ## Resources
 
