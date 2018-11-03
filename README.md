@@ -21,8 +21,8 @@ Empty React project folder.
 ### Online
 
 ### localhost
-  1) ```clone https://github.com/CrystalYungwirth/React-Kit.git```
-  2) ```cd React-Kit```
+  1) ```clone https://github.com/CrystalYungwirth/react-kit.git```
+  2) ```cd react-kit```
   3) ```npm i```
   4) ```npm start```
 
