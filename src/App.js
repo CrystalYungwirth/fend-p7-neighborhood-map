@@ -9,6 +9,8 @@ import stops from "./data/locations.json";
 import MapContainer from "./components/MapContainer";
 import Itinerary from "./components/Itinerary";
 import Attribution from "./components/Attribution";
+import Header from "./components/Header";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 export default class App extends Component {
   constructor(props) {
@@ -36,6 +38,8 @@ export default class App extends Component {
   }
   /**
    * @description Display all stops when page is loaded
+   * @param {string} query
+   * @param {array} stops
    */
   loadMap() {
     this.setState({
@@ -46,6 +50,7 @@ export default class App extends Component {
 
   /**
    *@description set state for stops and clear query
+   *@param {string} query
    */
   updateQuery = query => {
     this.setState({
@@ -56,6 +61,8 @@ export default class App extends Component {
 
   /**
    * @description Filter for search input & map markers
+   * @param {string} query
+   * @param {array} stops
    */
   handleChange = (stops, queried) => {
     return stops.filter(stop =>
@@ -65,6 +72,7 @@ export default class App extends Component {
 
   /**
    * @description Handle state for clicking list item and assign index to use for comparing in Map.js
+   * @param {number} index
    */
   handleClick = index => {
     this.setState({ clickedIndex: index });
@@ -72,23 +80,21 @@ export default class App extends Component {
 
   render() {
     return (
-      <>
-        <h1 className="page-header">Grand Canyon Fun Day</h1>
+      <ErrorBoundary>
+        <Header />
         <Itinerary
           stops={this.state.filteredStops}
           handleChange={this.updateQuery}
           handleClick={this.handleClick}
         />
         <MapContainer
-          lat={this.state.lat}
-          lon={this.state.lon}
-          zoom={this.state.zoom}
+		  poition={this.state.position}
           stops={this.state.filteredStops}
           clickedIndex={this.state.clickedIndex}
           handleClick={this.handleClick}
         />
         <Attribution />
-      </>
+      </ErrorBoundary>
     );
   };
 }

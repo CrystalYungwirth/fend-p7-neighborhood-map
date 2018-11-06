@@ -4,7 +4,8 @@ import Photo from "./Photo";
 
 class MapContainer extends Component {
   state = {
-    markers: []
+    markers: [],
+    infoWindowVisible: false
   };
 
   /**
@@ -12,6 +13,7 @@ class MapContainer extends Component {
    */
   componentDidMount() {
     this.loadMap();
+	
   }
 
   /**
@@ -24,9 +26,8 @@ class MapContainer extends Component {
   }
 
   /**
-   *@description update array length for visible markers and cards
+   * @description update markers from user input (query and click)
    */
-  // TODO: static getDerivedStateFromProps
   componentWillReceiveProps = props => {
     if (this.state.markers.length !== props.stops.length) {
       this.updateMarkers(props.stops);
@@ -48,21 +49,13 @@ class MapContainer extends Component {
   };
 
   /**
-   * @description close infowindow and stop animation
-   */
-  closeInfoWindow = () => {
-    this.state.activeMarker && this.state.activeMarker.setAnimation(null);
-    this.setState({ infoWindowVisible: false });
-  };
-
-  /**
    * @description fetch Foursquare info when marker is clicked and assign to arrays for comparison and info window
    * @todo DRY & DOT
    */
   handleMarkerClick = (props, marker) => {
     //reusable variables
     const clientId = "WQ32QLRKJ3A5DNLFNXW50GFNR0S50YY2XN4EBFDYIJYLGSRO";
-    const clientSecret = "JGCASHGL3FY3II1KYQNSBBWKOTOLZZPWGWZZZYTCINLODCMW";
+    const clientSecret = "1NL3XI1IJVLFAE4MSXBYJ54TPEWDIK0JZ5LNIGMUFSCSORIO";
     const hostName = "https://api.foursquare.com/v2/venues/";
     const version = "20181105";
 
@@ -75,14 +68,12 @@ class MapContainer extends Component {
     };
     let searchParam = new URLSearchParams(param);
     let url = `${searchUrl}client_id=${clientId}&client_secret=${clientSecret}&${searchParam}`;
-    let headers = new Headers();
-    let request = new Request(url, {
-      method: "GET",
-      headers
+    let searchRequest = new Request(url, {
+      method: "GET"
     });
 
     let fsInfo;
-    fetch(request)
+    fetch(searchRequest)
       .then(response => response.json())
       .then(data => {
         let destination = data.response.venues;
@@ -92,10 +83,10 @@ class MapContainer extends Component {
         };
 
         if (fsInfo.foursquare) {
-          let url = `${hostName}${
+          let photoUrl = `${hostName}${
             destination[0].id
           }/photos?client_id=${clientId}&client_secret=${clientSecret}&v=${version}`;
-          fetch(url)
+          fetch(photoUrl)
             .then(response => response.json())
             .then(data => {
               fsInfo = {
@@ -110,18 +101,40 @@ class MapContainer extends Component {
         } else {
           this.updateMarkerInfo(marker, fsInfo);
         }
-      });
+      })
+      .catch(error => alert(error));
   };
 
   /**
-   *@description update marker state and pass info to window
+   *@description update marker state
    */
   updateMarkerInfo = (marker, fsInfo) => {
-    marker.setAnimation(this.props.google.maps.Animation.BOUNCE);
+	this.toggleBounce(marker);
     this.setState({
       infoWindowVisible: true,
       activeMarker: marker,
       fsInfo
+    });
+  };
+
+  /**
+   *@description activeMarker toggle bounce
+   */
+  toggleBounce(marker, props) {
+    (marker.getAnimation() !== null) 
+      ? marker.setAnimation(null) 
+      : marker.setAnimation(this.props.google.maps.Animation.BOUNCE)
+  }
+
+  /**
+   *@description reset marker & infowindow when not in focus
+   */
+  disableActive = () => {
+    this.state.activeMarker && this.state.activeMarker.setAnimation(null);
+    this.setState({
+      infoWindowVisible: false,
+      activeMarker: null,
+      fsInfo: null
     });
   };
 
@@ -176,26 +189,23 @@ class MapContainer extends Component {
         zoom={9}
         style={style}
         initialCenter={center}
-        onClick={this.closeInfoWindow}
       >
         <InfoWindow
           marker={this.state.activeMarker}
           visible={this.state.infoWindowVisible}
-          onClose={this.closeInfoWindow}
+          onClose={this.disableActive}
         >
-          <>
+          <div>
             <h3>{activeInfo && activeInfo.name}</h3>
-            {activeInfo && activeInfo.photos ? (
-              <>
-                <Photo
-                  key={this.props.activeInfo.name}
-                  activeInfo={this.props.activeInfo}
-                />
-              </>
+
+            {activeInfo && activeInfo.images ? (
+              <React.Fragment>
+                <Photo key={activeInfo.id} activeInfo={activeInfo} />
+              </React.Fragment>
             ) : (
-              <span>Image Not Available</span>
+              <span>Photo not available at this time</span>
             )}
-          </>
+          </div>
         </InfoWindow>
       </Map>
     );
@@ -203,5 +213,5 @@ class MapContainer extends Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyBSf2q0a4Umr65w17nKsfLOl6L99Vj2DsQ"
+  apiKey: "AIzaSyDdaqZyf_ta1bZMQ4t7ihC09OgrAREotv8"
 })(MapContainer);
