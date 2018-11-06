@@ -1,36 +1,38 @@
 import React, { Component } from "react";
-import { Map, GoogleApiWrapper } from "google-maps-react";
+import { Map, InfoWindow, GoogleApiWrapper } from "google-maps-react";
+import Photo from "./Photo";
 
-class MapDisplay extends Component {
+class MapContainer extends Component {
   state = {
     markers: []
   };
 
+  /**
+   * @description load map with markers
+   */
+  componentDidMount() {
+    this.loadMap();
+  }
 
-    /**
-    * @description load map with markers
-    */
-    componentDidMount() {
-      this.loadMap();
-    };
+  /**
+   * @description destroy markers
+   */
+  componentWillUnmount() {
+    this.state.markers.map(marker => marker.setMap(null));
+    this.setState({ marker: null });
+    this.setState({ activeMarker: null });
+  }
 
-    /**
-     * @description destroy markers
-     */
-    componentWillUnmount() {
-      this.state.markers.map(marker => marker.setMap(null));
-      this.setState({marker: null});
-      this.setState({ activeMarker: null });
-    }
-
+  /**
+   *@description update array length for visible markers and cards
+   */
+  // TODO: static getDerivedStateFromProps
   componentWillReceiveProps = props => {
-    // Change in the number of stops, so update the markers
     if (this.state.markers.length !== props.stops.length) {
       this.updateMarkers(props.stops);
       return;
     }
 
-    // Treat the marker as clicked
     this.handleMarkerClick(
       this.state.markerInfo[props.clickedIndex],
       this.state.markers[props.clickedIndex]
@@ -38,11 +40,19 @@ class MapDisplay extends Component {
   };
 
   /**
-  * @description load map and markers
-  */
+   * @description load map and markers
+   */
   loadMap = (props, map) => {
-    this.setState({map});
+    this.setState({ map });
     this.updateMarkers(this.props.stops);
+  };
+
+  /**
+   * @description close infowindow and stop animation
+   */
+  closeInfoWindow = () => {
+    this.state.activeMarker && this.state.activeMarker.setAnimation(null);
+    this.setState({ infoWindowVisible: false });
   };
 
   /**
@@ -104,20 +114,21 @@ class MapDisplay extends Component {
   };
 
   /**
-  *@description update marker state
-  */
+   *@description update marker state and pass info to window
+   */
   updateMarkerInfo = (marker, fsInfo) => {
     marker.setAnimation(this.props.google.maps.Animation.BOUNCE);
     this.setState({
+      infoWindowVisible: true,
       activeMarker: marker,
       fsInfo
     });
   };
 
   /**
-  *@description add and remove markers based on query
-  *@tutorial Based on Doug Brown webinar
-  */
+   *@description add and remove markers based on query
+   *@tutorial Based on Doug Brown webinar
+   */
   updateMarkers = stops => {
     this.state.markers.forEach(marker => marker.setMap(null));
 
@@ -130,7 +141,7 @@ class MapDisplay extends Component {
         position: location.position
       };
       markerInfo.push(info);
-      this.setState({ markerInfo});
+      this.setState({ markerInfo });
 
       let marker = new this.props.google.maps.Marker({
         position: location.position,
@@ -165,12 +176,32 @@ class MapDisplay extends Component {
         zoom={9}
         style={style}
         initialCenter={center}
+        onClick={this.closeInfoWindow}
       >
+        <InfoWindow
+          marker={this.state.activeMarker}
+          visible={this.state.infoWindowVisible}
+          onClose={this.closeInfoWindow}
+        >
+          <>
+            <h3>{activeInfo && activeInfo.name}</h3>
+            {activeInfo && activeInfo.photos ? (
+              <>
+                <Photo
+                  key={this.props.activeInfo.name}
+                  activeInfo={this.props.activeInfo}
+                />
+              </>
+            ) : (
+              <span>Image Not Available</span>
+            )}
+          </>
+        </InfoWindow>
       </Map>
     );
-  };
+  }
 }
 
 export default GoogleApiWrapper({
   apiKey: "AIzaSyBSf2q0a4Umr65w17nKsfLOl6L99Vj2DsQ"
-})(MapDisplay);
+})(MapContainer);

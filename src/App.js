@@ -36,8 +36,6 @@ export default class App extends Component {
   }
   /**
    * @description Display all stops when page is loaded
-   * @param {string} query
-   * @param {array} stops
    */
   loadMap() {
     this.setState({
@@ -48,7 +46,6 @@ export default class App extends Component {
 
   /**
    *@description set state for stops and clear query
-   *@param {string} query
    */
   updateQuery = query => {
     this.setState({
@@ -59,8 +56,6 @@ export default class App extends Component {
 
   /**
    * @description Filter for search input & map markers
-   * @param {string} query
-   * @param {array} stops
    */
   handleChange = (stops, queried) => {
     return stops.filter(stop =>
@@ -70,7 +65,6 @@ export default class App extends Component {
 
   /**
    * @description Handle state for clicking list item and assign index to use for comparing in Map.js
-   * @param {number} index
    */
   handleClick = index => {
     this.setState({ clickedIndex: index });
