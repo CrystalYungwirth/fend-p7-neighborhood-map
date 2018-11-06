@@ -8,6 +8,7 @@ import "./App.css";
 import stops from "./data/locations.json";
 import MapContainer from "./components/MapContainer";
 import Itinerary from "./components/Itinerary";
+import Attribution from "./components/Attribution";
 
 export default class App extends Component {
   constructor(props) {
@@ -92,6 +93,7 @@ export default class App extends Component {
           clickedIndex={this.state.clickedIndex}
           handleClick={this.handleClick}
         />
+        <Attribution />
       </>
     );
   };
