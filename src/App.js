@@ -6,6 +6,7 @@ import React, { Component } from "react";
 import { debounce } from "throttle-debounce";
 import "./App.css";
 import stops from "./data/locations.json";
+import MapContainer from "./components/MapContainer";
 import Itinerary from "./components/Itinerary";
 
 export default class App extends Component {
@@ -81,6 +82,14 @@ export default class App extends Component {
         <Itinerary
           stops={this.state.filteredStops}
           handleChange={this.updateQuery}
+          handleClick={this.handleClick}
+        />
+        <MapContainer
+          lat={this.state.lat}
+          lon={this.state.lon}
+          zoom={this.state.zoom}
+          stops={this.state.filteredStops}
+          clickedIndex={this.state.clickedIndex}
           handleClick={this.handleClick}
         />
       </>
