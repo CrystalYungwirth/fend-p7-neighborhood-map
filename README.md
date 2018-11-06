@@ -34,7 +34,8 @@ Not available at this time, will deploy from [react-gh-pages](https://github.com
 
 ## Resources
  * [Get Lat Long from Address](https://www.latlong.net/convert-address-to-lat-long.html)
-
+ * [FEND P7 Walkthrough with Doug Brown](https://youtu.be/NVAVLCJwAAo)
+ 
 ## Contributions
 I'm not likely to accept contributions since it's a class project.
 
