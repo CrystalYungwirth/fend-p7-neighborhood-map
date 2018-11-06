@@ -9,6 +9,8 @@ import stops from "./data/locations.json";
 import MapContainer from "./components/MapContainer";
 import Itinerary from "./components/Itinerary";
 import Attribution from "./components/Attribution";
+import Header from "./components/Header";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 export default class App extends Component {
   constructor(props) {
@@ -78,23 +80,21 @@ export default class App extends Component {
 
   render() {
     return (
-      <>
-        <h1 className="page-header">Grand Canyon Fun Day</h1>
+      <ErrorBoundary>
+        <Header />
         <Itinerary
           stops={this.state.filteredStops}
           handleChange={this.updateQuery}
           handleClick={this.handleClick}
         />
         <MapContainer
-          lat={this.state.lat}
-          lon={this.state.lon}
-          zoom={this.state.zoom}
+		  poition={this.state.position}
           stops={this.state.filteredStops}
           clickedIndex={this.state.clickedIndex}
           handleClick={this.handleClick}
         />
         <Attribution />
-      </>
+      </ErrorBoundary>
     );
   };
 }
