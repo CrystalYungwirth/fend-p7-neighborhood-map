@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Bright Angel Trail",
+    "position": {"lat":36.077537188720456,"lng":-112.12878227233887}
+  },
+  {
+    "name": "Cafe at Mather Point",
+    "position": {"lat":36.05829328969053,"lng":-112.10928797721863}
+  },
+  {
+    "name": "Mr. Mesquite Street Tacos",
+    "position": {"lat":33.65765621470417,"lng":-111.92833542823792}
+  },
+  {
+    "name": "The Patio At Goldwater Brewing",
+    "position": {"lat":33.489748,"lng":-111.926463}
+  },
+  {
+    "name": "Solarium Suite",
+    "position": {"lat":36.057082,"lng":-112.137212}
+  }
+]
