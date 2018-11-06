@@ -1,0 +1,117 @@
+body,
+html {
+  max-width: 100%;
+  max-height: 100%;
+  overflow-y: hidden;
+  background-color: #b71c1c;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Cabin', sans-serif;
+  padding: 0;
+  margin: 2px;
+}
+
+.page-header {
+  background-color: #7f0000;
+  color: #ffbb93;
+  font-family: 'Patrick Hand SC', cursive;
+  margin: 0;
+  height: 10vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.foursquare {
+  width: 150px;
+  max-height: 30px;
+  bottom: 0;
+  position: absolute;
+}
+
+.search {
+  width: 90%;
+  height: 5vh;
+  font-size: 1.5rem;
+  margin-left: 5%;
+  border-radius: 15px;
+  padding-left: 1%;
+}
+
+/***** Info Cards *****/
+.info-card {
+    border: none;
+    margin: 4%;
+    box-shadow: 5px 10px 10px #ffbb93;
+    border-radius: 2%;
+    padding: 1rem 2rem;
+    background: #f05545;
+    color: #000;
+    cursor: pointer;
+    height: 15vh;
+    width: 250px;
+}
+
+.info-card:hover,
+.info-card:focus {
+    background: #b71c1c;
+}
+
+.info-card:focus {
+    outline: 1px solid #ffbb93;
+    border-radius: 2%;
+    outline-offset: -3%;
+}
+
+.info-card:active {
+    transform: scale(0.99);
+}
+
+.stops {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  min-height: 5vh;
+  list-style-type: none;
+  width: 100%;
+}
+
+/***** React Component Slider *****/
+.component-slider {
+  position: relative;
+  width: 99%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.component-slider .slider-container {
+  overflow: hidden;
+}
+
+.component-slider .slider-content {
+  display: inline-block;
+  transition: margin-left .5s ease-in;
+  margin: 0 2vw;
+}
+
+.component-slider .caret {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #b71c1c;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  font-size: 2em;
+  color: #fff;
+  height:40vh;
+}
+
+.component-slider .caret-right {
+  right: 0;
+}
+
+.component-slider .caret-left {
+  left: 0;
+}
