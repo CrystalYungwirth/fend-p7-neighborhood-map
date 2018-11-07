@@ -26,7 +26,7 @@ export default class App extends Component {
   * @description load map with markers
   */
   componentDidMount() {
-    this.loadMap();
+    this.loadPage();
   };
 
   /**
@@ -36,12 +36,13 @@ export default class App extends Component {
     this.state.markers.map(marker => marker.setMap(null));
     this.setState({marker: null});
   }
+  
   /**
    * @description Display all stops when page is loaded
    * @param {string} query
    * @param {array} stops
    */
-  loadMap() {
+  loadPage() {
     this.setState({
       ...this.state,
       filteredStops: this.handleChange(this.state.stops, "")

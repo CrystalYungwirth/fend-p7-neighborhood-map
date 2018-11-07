@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Map, InfoWindow, GoogleApiWrapper } from "google-maps-react";
-import Photo from "./Photo";
 
 class MapContainer extends Component {
   state = {
@@ -20,21 +19,28 @@ class MapContainer extends Component {
    */
   componentWillUnmount(props) {
     this.state.markers.map(marker => marker.setMap(null));
-    if (!props.clickedIndex || (this.state.activeMarker &&
-        (this.state.markers[props.clickedIndex] !== this.state.activeMarker))) {
-    }
   }
 
   /**
    * @description update markers from user input (query and click)
    */
-  componentWillReceiveProps = props => {
-    if (this.state.markers.length !== props.stops.length) {
-      this.updateMarkers(props.stops);
-      this.setState({ activeMarker: null });
-      return;
+    componentWillReceiveProps = (props) => {
+        // Change in the number of stops, so update the markers
+        if (this.state.markers.length !== props.stops.length) {
+            this.updateMarkers(props.stops);
+            this.setState({activeMarker: null, infoWindowVisible: false});
+
+            return;
+        }
+
+        // Make sure there's a selected index
+        if (props.clickedIndex === null || typeof(props.clickedIndex) === "undefined") {
+            return;
+        };
+
+        // Treat the marker as clicked
+        this.handleMarkerClick(this.state.markerInfo[props.clickedIndex], this.state.markers[props.clickedIndex]);
     }
-  };
 
   /**
    * @description load map and markers
@@ -57,12 +63,13 @@ class MapContainer extends Component {
     //search variables
     const searchPath = "search?";
     const searchUrl = new URL(searchPath, hostName);
-    // const param = {
-    //   v: "20181104",
-    //   ll: `${props.position.lat},${props.position.lng}`
-    // };
-    // let searchParam = new URLSearchParams(param);
-    let url = `${searchUrl}client_id=${clientId}&client_secret=${clientSecret}&v=${version}&radius=100&ll=${props.position.lat},${props.position.lng}&llAcc=100`;
+    const param = {
+   		  v: "20181104",
+       ll: `${props.position.lat},${props.position.lng}`,
+      radius: 100
+     };
+    let searchParam = new URLSearchParams(param);
+    let url = `${searchUrl}client_id=${clientId}&client_secret=${clientSecret}&${searchParam}&${props.position.lat},${props.position.lng}`;
     let headers = new Headers();
     let request = new Request(url, {
         method: 'GET',
@@ -84,10 +91,10 @@ class MapContainer extends Component {
             let url = `${hostName}/${venues[0].id}/photos?client_id=${clientId}&client_secret=${clientSecret}&v=${version}`;
             fetch(url)
                 .then(response => response.json())
-                .then(result => {
+                .then(data => {
                     fsInfo = {
                         ...fsInfo,
-                        images: result.response.photos
+                        images: data.response.photos
                     };
 
               if (this.state.activeMarker)
@@ -175,7 +182,7 @@ class MapContainer extends Component {
       lng: -111.92579
     };
     let activeInfo = this.state.fsInfo;
-    console.log(this.state.fsInfo)
+	console.log(activeInfo);
     return (
       <Map
         role="application"
@@ -191,17 +198,26 @@ class MapContainer extends Component {
           visible={this.state.infoWindowVisible}
           onClose={this.disableActive}
         >
-          <div>
+          <>
             <h3>{activeInfo && activeInfo.name}</h3>
-
+			<address>
+				{activeInfo && activeInfo.foursquare.location.address}
+				<br />
+				{activeInfo && activeInfo.foursquare.location.city}, {activeInfo && activeInfo.foursquare.location.postalCode}
+			</address>
+			<br/>
             {activeInfo && activeInfo.images ? (
               <React.Fragment>
-                <Photo key={activeInfo.id} activeInfo={activeInfo} />
+                <img
+                  alt={activeInfo && activeInfo.name}
+                  src={activeInfo && activeInfo.images.items[0].prefix + "100x100" + activeInfo.images.items[0].suffix}/>
               </React.Fragment>
             ) : (
-              <span>Photo not available at this time</span>
+              <React.Fragment>
+              	<span>Photo not available at this time</span>
+              </React.Fragment>
             )}
-          </div>
+          </>
         </InfoWindow>
       </Map>
     );
