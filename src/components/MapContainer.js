@@ -74,7 +74,7 @@ class MapContainer extends Component {
     fetch(request)
       .then(response => response.json())
       .then(data => {
-        let venues = data.response.venues;
+        let venues = data.response.venues.filter(item => item.name.includes(props.name) || props.name.includes(item.name));
         fsInfo = {
           ...props,
           foursquare: venues[0]
