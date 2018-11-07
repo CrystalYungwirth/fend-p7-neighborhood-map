@@ -13,16 +13,16 @@ class MapContainer extends Component {
    */
   componentDidMount() {
     this.loadMap();
-	
   }
 
   /**
    * @description destroy markers
    */
-  componentWillUnmount() {
+  componentWillUnmount(props) {
     this.state.markers.map(marker => marker.setMap(null));
-    this.setState({ marker: null });
-    this.setState({ activeMarker: null });
+    if (!props.clickedIndex || (this.state.activeMarker &&
+        (this.state.markers[props.clickedIndex] !== this.state.activeMarker))) {
+    }
   }
 
   /**
@@ -31,13 +31,9 @@ class MapContainer extends Component {
   componentWillReceiveProps = props => {
     if (this.state.markers.length !== props.stops.length) {
       this.updateMarkers(props.stops);
+      this.setState({ activeMarker: null });
       return;
     }
-
-    this.handleMarkerClick(
-      this.state.markerInfo[props.clickedIndex],
-      this.state.markers[props.clickedIndex]
-    );
   };
 
   /**
@@ -58,41 +54,41 @@ class MapContainer extends Component {
     const clientSecret = "1NL3XI1IJVLFAE4MSXBYJ54TPEWDIK0JZ5LNIGMUFSCSORIO";
     const hostName = "https://api.foursquare.com/v2/venues/";
     const version = "20181105";
-
     //search variables
     const searchPath = "search?";
     const searchUrl = new URL(searchPath, hostName);
-    const param = {
-      v: "20181104",
-      ll: `${props.position.lat},${props.position.lng}`
-    };
-    let searchParam = new URLSearchParams(param);
-    let url = `${searchUrl}client_id=${clientId}&client_secret=${clientSecret}&${searchParam}`;
-    let searchRequest = new Request(url, {
-      method: "GET"
+    // const param = {
+    //   v: "20181104",
+    //   ll: `${props.position.lat},${props.position.lng}`
+    // };
+    // let searchParam = new URLSearchParams(param);
+    let url = `${searchUrl}client_id=${clientId}&client_secret=${clientSecret}&v=${version}&radius=100&ll=${props.position.lat},${props.position.lng}&llAcc=100`;
+    let headers = new Headers();
+    let request = new Request(url, {
+        method: 'GET',
+        headers
     });
 
+    // Create props for the active marker
     let fsInfo;
-    fetch(searchRequest)
+    fetch(request)
       .then(response => response.json())
       .then(data => {
-        let destination = data.response.venues;
+        let venues = data.response.venues;
         fsInfo = {
           ...props,
-          foursquare: destination[0]
+          foursquare: venues[0]
         };
 
         if (fsInfo.foursquare) {
-          let photoUrl = `${hostName}${
-            destination[0].id
-          }/photos?client_id=${clientId}&client_secret=${clientSecret}&v=${version}`;
-          fetch(photoUrl)
-            .then(response => response.json())
-            .then(data => {
-              fsInfo = {
-                ...fsInfo,
-                photos: data.response.photos
-              };
+            let url = `${hostName}/${venues[0].id}/photos?client_id=${clientId}&client_secret=${clientSecret}&v=${version}`;
+            fetch(url)
+                .then(response => response.json())
+                .then(result => {
+                    fsInfo = {
+                        ...fsInfo,
+                        images: result.response.photos
+                    };
 
               if (this.state.activeMarker)
                 this.state.activeMarker.setAnimation(null);
@@ -121,8 +117,8 @@ class MapContainer extends Component {
    *@description activeMarker toggle bounce
    */
   toggleBounce(marker, props) {
-    (marker.getAnimation() !== null) 
-      ? marker.setAnimation(null) 
+    (marker.getAnimation() !== null)
+      ? marker.setAnimation(null)
       : marker.setAnimation(this.props.google.maps.Animation.BOUNCE)
   }
 
@@ -179,7 +175,7 @@ class MapContainer extends Component {
       lng: -111.92579
     };
     let activeInfo = this.state.fsInfo;
-
+    console.log(this.state.fsInfo)
     return (
       <Map
         role="application"

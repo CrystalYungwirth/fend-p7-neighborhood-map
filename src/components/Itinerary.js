@@ -5,17 +5,9 @@ import ComponentSlider from "@kapost/react-component-slider";
 
 class Itinerary extends Component {
   state = {
-    query: ""
+    query: null
   };
 
-    /**
-     * @description run updateQuery if update
-     */
-    componentDidUpdate = prevProps => {
-      if (this.props.value !== prevProps.value) {
-        this.updateQuery();
-      }
-    };
     /**
      * @description run updateQuery if update
      */
