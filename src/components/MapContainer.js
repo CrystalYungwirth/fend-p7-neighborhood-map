@@ -21,11 +21,23 @@ class MapContainer extends Component {
     this.state.markers.map(marker => marker.setMap(null));
   }
 
+/**
+*@description check index 
+*/
+ componentDidUpdate(props) {
+        if (props.clickedIndex === null || typeof(props.clickedIndex) === "undefined") {
+            return;
+        };
+ }
+
+ query = memoize(
+ 	(this.state.markers.length, this.props.stops.length) => {
+    }
+ )
   /**
    * @description update markers from user input (query and click)
    */
-    componentWillReceiveProps = (props) => {
-        // Change in the number of stops, so update the markers
+    componentWillReceiveProps(props) {
         if (this.state.markers.length !== props.stops.length) {
             this.updateMarkers(props.stops);
             this.setState({activeMarker: null, infoWindowVisible: false});
@@ -33,12 +45,6 @@ class MapContainer extends Component {
             return;
         }
 
-        // Make sure there's a selected index
-        if (props.clickedIndex === null || typeof(props.clickedIndex) === "undefined") {
-            return;
-        };
-
-        // Treat the marker as clicked
         this.handleMarkerClick(this.state.markerInfo[props.clickedIndex], this.state.markers[props.clickedIndex]);
     }
 
@@ -75,8 +81,7 @@ class MapContainer extends Component {
         method: 'GET',
         headers
     });
-
-    // Create props for the active marker
+    
     let fsInfo;
     fetch(request)
       .then(response => response.json())

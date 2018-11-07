@@ -16,6 +16,8 @@ I chose [google-maps-react](npmjs.com/package/google-maps-react) for development
 
 For one version, I did not use a package. Ultimately, I decided the additional documentation, lifecycle handling, error handling, fallback UI's that packages had to offer created a stronger version than I could produce without significantly relying on external code. While [google-maps-react](npmjs.com/packages/google-maps-react) does use `componentWillReceiveProps` within `dist/GoogleApiComponent.js` and `src/GoogleApiComponent.js`, it does not encrypt the same warning in the DOM.
 
+I relied on the Doug Brown walkthrough for most of the lifecycle handling and handling state between the two components. Then I integrated the parts I had already figured out to bring back the project to being my own. The good news is I learned a lot and did some extra research along the way. 
+
 ## View Page
 ### Online
 Not available at this time, will deploy from [react-gh-pages](https://github.com/gitname/react-gh-pages) in the future.
@@ -33,6 +35,7 @@ Not available at this time, will deploy from [react-gh-pages](https://github.com
 
 ## Resources
  * [Get Lat Long from Address](https://www.latlong.net/convert-address-to-lat-long.html)
+ * [Doug Brown Walkthrough](https://youtu.be/NVAVLCJwAAo)
 
 ## Contributions
 I'm not likely to accept contributions since it's a class project.
