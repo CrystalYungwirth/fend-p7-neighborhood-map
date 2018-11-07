@@ -53,14 +53,11 @@ export default class App extends Component {
    *@param {string} query
    */
   updateQuery = query => {
-    query
-    ?
     this.setState({
       ...this.state,
       clickedIndex: null,
       filteredStops: this.handleChange(this.state.stops, query)
     })
-    : this.setState({query: null});
   };
 
   /**

@@ -5,7 +5,7 @@ import ComponentSlider from "@kapost/react-component-slider";
 
 class Itinerary extends Component {
   state = {
-    query: null
+    query: ""
   };
 
     /**
