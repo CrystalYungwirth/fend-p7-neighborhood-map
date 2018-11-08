@@ -29,6 +29,15 @@ Not available at this time, will deploy from [react-gh-pages](https://github.com
   4) ```npm start```
 
   App must be shown on localhost:3000 I have the Google API Key restricted.
+  
+### Offline
+  The serviceWorker is only available in production mode.
+  1) ```clone https://github.com/CrystalYungwirth/fend-p7-neighborhood-map.git```
+  2) ```cd fend-p7-neighborhood-map```
+  3) ```npm i```
+  4) ```npm run build```
+  5) Open in ```localhost:3000```
+
 
 ## [Dependencies](./package.json)
  * This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
