@@ -4,7 +4,7 @@ import { Map, InfoWindow, GoogleApiWrapper } from "google-maps-react";
 class MapContainer extends Component {
   state = {
     markers: [],
-    infoWindowVisible: false
+    infoWindowVisible: false,
   };
 
   /**
