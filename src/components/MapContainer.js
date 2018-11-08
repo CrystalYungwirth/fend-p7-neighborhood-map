@@ -68,7 +68,7 @@ class MapContainer extends Component {
     const param = {
    		  v: "20181104",
        ll: `${props.position.lat},${props.position.lng}`,
-      radius: 100
+      radius: 1000
      };
     let searchParam = new URLSearchParams(param);
     let url = `${searchUrl}client_id=${clientId}&client_secret=${clientSecret}&${searchParam}&${props.position.lat},${props.position.lng}`;
