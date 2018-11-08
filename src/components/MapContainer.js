@@ -30,10 +30,6 @@ class MapContainer extends Component {
         };
  }
 
- query = memoize(
- 	(this.state.markers.length, this.props.stops.length) => {
-    }
- )
   /**
    * @description update markers from user input (query and click)
    */
