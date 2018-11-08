@@ -43,10 +43,20 @@ export default class App extends Component {
    * @param {array} stops
    */
   loadPage() {
+	this.mapError();
     this.setState({
       ...this.state,
       filteredStops: this.handleChange(this.state.stops, "")
     });
+  }
+  
+  /**
+   * @description custom error message to users aside the default google maps error page
+   */
+  mapError() {
+      window.gm_authFailure=()=>{ 
+ 	  alert('GoogleMaps API failed to load. Check API key and try again.');
+	};
   }
 
   /**
