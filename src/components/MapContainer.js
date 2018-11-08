@@ -4,7 +4,7 @@ import { Map, InfoWindow, GoogleApiWrapper } from "google-maps-react";
 class MapContainer extends Component {
   state = {
     markers: [],
-    infoWindowVisible: false,
+    infoWindowVisible: false
   };
 
   /**
@@ -24,23 +24,29 @@ class MapContainer extends Component {
   /**
    * @description update markers from user input (query and click)
    */
-  //TODO: Transition to static getDerivedStateFromProps. I was getting a weird error that static couldn't be used. 
-    componentWillReceiveProps(props) {
-        if (this.state.markers.length !== props.stops.length) {
-            this.updateMarkers(props.stops);
-            this.setState({activeMarker: null, infoWindowVisible: false});
+  //TODO: Transition to static getDerivedStateFromProps. I was getting a weird error that static couldn't be used.
+  componentWillReceiveProps(props) {
+    if (this.state.markers.length !== props.stops.length) {
+      this.updateMarkers(props.stops);
+      this.setState({ activeMarker: null, infoWindowVisible: false });
 
-            return;
-        }
-      
-      //TODO: Figure out a better lifecycle for this. I don't think it needs to be in static getDerivedStateFromProps, but it didn't fit in with 
-      //componentDidUpdate like I thought it should.
-        if (props.clickedIndex === null || typeof(props.clickedIndex) === "undefined") {
-            return;
-        };
-
-        this.handleMarkerClick(this.state.markerInfo[props.clickedIndex], this.state.markers[props.clickedIndex]);
+      return;
     }
+
+    //TODO: Figure out a better lifecycle for this. I don't think it needs to be in static getDerivedStateFromProps, but it didn't fit in with
+    //componentDidUpdate like I thought it should.
+    if (
+      props.clickedIndex === null ||
+      typeof props.clickedIndex === "undefined"
+    ) {
+      return;
+    }
+
+    this.handleMarkerClick(
+      this.state.markerInfo[props.clickedIndex],
+      this.state.markers[props.clickedIndex]
+    );
+  }
 
   /**
    * @description load map and markers
@@ -54,46 +60,53 @@ class MapContainer extends Component {
    * @description fetch Foursquare info when marker is clicked and assign to arrays for comparison and info window
    * @todo DRY & DOT
    */
- handleMarkerClick = (props, marker) => {
-     //reusable variables
-     const clientId = "WQ32QLRKJ3A5DNLFNXW50GFNR0S50YY2XN4EBFDYIJYLGSRO";
-     const clientSecret = "1NL3XI1IJVLFAE4MSXBYJ54TPEWDIK0JZ5LNIGMUFSCSORIO";
-     const hostName = "https://api.foursquare.com/v2/venues/";
-     const version = "20181105";
-     //search variables
-     const searchPath = "search?";
-     const searchUrl = new URL(searchPath, hostName);
-     // const param = {
-     //   v: "20181104",
-     //   ll: `${props.position.lat},${props.position.lng}`
-     // };
-     // let searchParam = new URLSearchParams(param);
-     let url = `${searchUrl}client_id=${clientId}&client_secret=${clientSecret}&v=${version}&radius=100&ll=${props.position.lat},${props.position.lng}&llAcc=100`;
-     let headers = new Headers();
+  handleMarkerClick = (props, marker) => {
+    //reusable variables
+    const clientId = "WQ32QLRKJ3A5DNLFNXW50GFNR0S50YY2XN4EBFDYIJYLGSRO";
+    const clientSecret = "1NL3XI1IJVLFAE4MSXBYJ54TPEWDIK0JZ5LNIGMUFSCSORIO";
+    const hostName = "https://api.foursquare.com/v2/venues/";
+    const version = "20181105";
+    //search variables
+    const searchPath = "search?";
+    const searchUrl = new URL(searchPath, hostName);
+    // const param = {
+    //   v: "20181104",
+    //   ll: `${props.position.lat},${props.position.lng}`
+    // };
+    // let searchParam = new URLSearchParams(param);
+    let url = `${searchUrl}client_id=${clientId}&client_secret=${clientSecret}&v=${version}&radius=100&ll=${
+      props.position.lat
+    },${props.position.lng}&llAcc=100`;
+    let headers = new Headers();
     let request = new Request(url, {
-        method: 'GET',
-        headers
+      method: "GET",
+      headers
     });
-    
+
     let fsInfo;
     fetch(request)
       .then(response => response.json())
       .then(data => {
-        let venues = data.response.venues.filter(item => item.name.includes(props.name) || props.name.includes(item.name));
+        let venues = data.response.venues.filter(
+          item =>
+            item.name.includes(props.name) || props.name.includes(item.name)
+        );
         fsInfo = {
           ...props,
           foursquare: venues[0]
         };
 
         if (fsInfo.foursquare) {
-            let url = `${hostName}/${venues[0].id}/photos?client_id=${clientId}&client_secret=${clientSecret}&v=${version}`;
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    fsInfo = {
-                        ...fsInfo,
-                        images: data.response.photos
-                    };
+          let url = `${hostName}/${
+            venues[0].id
+          }/photos?client_id=${clientId}&client_secret=${clientSecret}&v=${version}`;
+          fetch(url)
+            .then(response => response.json())
+            .then(data => {
+              fsInfo = {
+                ...fsInfo,
+                images: data.response.photos
+              };
 
               if (this.state.activeMarker)
                 this.state.activeMarker.setAnimation(null);
@@ -110,7 +123,7 @@ class MapContainer extends Component {
    *@description update marker state
    */
   updateMarkerInfo = (marker, fsInfo) => {
-	this.toggleBounce(marker);
+    this.toggleBounce(marker);
     this.setState({
       infoWindowVisible: true,
       activeMarker: marker,
@@ -122,9 +135,9 @@ class MapContainer extends Component {
    *@description activeMarker toggle bounce
    */
   toggleBounce(marker, props) {
-    (marker.getAnimation() !== null)
+    marker.getAnimation() !== null
       ? marker.setAnimation(null)
-      : marker.setAnimation(this.props.google.maps.Animation.BOUNCE)
+      : marker.setAnimation(this.props.google.maps.Animation.BOUNCE);
   }
 
   /**
@@ -180,7 +193,7 @@ class MapContainer extends Component {
       lng: -111.92579
     };
     let activeInfo = this.state.fsInfo;
-	console.log(activeInfo);
+    console.log(activeInfo);
     return (
       <Map
         role="application"
@@ -198,21 +211,28 @@ class MapContainer extends Component {
         >
           <>
             <h3>{activeInfo && activeInfo.name}</h3>
-			<address>
-				{activeInfo && activeInfo.foursquare.location.address}
-				<br />
-				{activeInfo && activeInfo.foursquare.location.city}, {activeInfo && activeInfo.foursquare.location.postalCode}
-			</address>
-			<br/>
+            <address>
+              {activeInfo && activeInfo.foursquare.location.address}
+              <br />
+              {activeInfo && activeInfo.foursquare.location.city},{" "}
+              {activeInfo && activeInfo.foursquare.location.postalCode}
+            </address>
+            <br />
             {activeInfo && activeInfo.images ? (
               <React.Fragment>
                 <img
                   alt={activeInfo && activeInfo.name}
-                  src={activeInfo && activeInfo.images.items[0].prefix + "100x100" + activeInfo.images.items[0].suffix}/>
+                  src={
+                    activeInfo &&
+                    activeInfo.images.items[0].prefix +
+                      "100x100" +
+                      activeInfo.images.items[0].suffix
+                  }
+                />
               </React.Fragment>
             ) : (
               <React.Fragment>
-              	<span>Photo not available at this time</span>
+                <span>Photo not available at this time</span>
               </React.Fragment>
             )}
           </>
