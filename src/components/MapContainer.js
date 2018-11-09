@@ -62,8 +62,8 @@ class MapContainer extends Component {
    */
   handleMarkerClick = (props, marker) => {
     //reusable variables
-    const clientId = "WQ32QLRKJ3A5DNLFNXW50GFNR0S50YY2XN4EBFDYIJYLGSRO";
-    const clientSecret = "1NL3XI1IJVLFAE4MSXBYJ54TPEWDIK0JZ5LNIGMUFSCSORIO";
+    const clientId = "";
+    const clientSecret = "";
     const hostName = "https://api.foursquare.com/v2/venues/";
     const version = "20181105";
     //search variables
@@ -243,5 +243,5 @@ class MapContainer extends Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyDdaqZyf_ta1bZMQ4t7ihC09OgrAREotv8"
+  apiKey: ""
 })(MapContainer);
