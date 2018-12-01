@@ -32,8 +32,8 @@ Not available at this time, will deploy from [react-gh-pages](https://github.com
   
 ### Offline
   The serviceWorker is only available in production mode.
-  1) ```clone https://github.com/CrystalYungwirth/fend-p7-neighborhood-map.git```
-  2) ```cd fend-p7-neighborhood-map```
+  1) ```clone https://github.com/CrystalYungwirth/udacity-fend-p7-neighborhood-map.git```
+  2) ```cd udacity-fend-p7-neighborhood-map```
   3) ```npm i```
   4) ```npm run build```
   5) Open in ```localhost:3000```
