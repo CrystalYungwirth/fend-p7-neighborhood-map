@@ -23,7 +23,7 @@ I relied on the Doug Brown walkthrough for most of the lifecycle handling and ha
 Not available at this time, will deploy from [react-gh-pages](https://github.com/gitname/react-gh-pages) in the future.
 
 ### localhost
-  1) ```clone https://github.com/CrystalYungwirth/udacity-fend-p7-neighborhood-map.git```
+  1) ```clone https://github.com/crystal-dawn/udacity-fend-p7-neighborhood-map.git```
   2) ```cd udacity-fend-p7-neighborhood-map```
   3) ```npm i```
   4) ```npm start```
