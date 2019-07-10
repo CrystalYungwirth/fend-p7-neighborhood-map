@@ -62,8 +62,8 @@ class MapContainer extends Component {
    */
   handleMarkerClick = (props, marker) => {
     //reusable variables
-    const clientId = "";
-    const clientSecret = "";
+    const clientId = "XRVYF1WW413WIF4WWPTNFVNPIPJUZ523J5X4HPT2D2DVP3JA";
+    const clientSecret = "I1E5B4PEZ1GC15IRSNC0YNGLTJLGFSYNTIWD3MGNJ4QRYTOA";
     const hostName = "https://api.foursquare.com/v2/venues/";
     const version = "20181105";
     //search variables
