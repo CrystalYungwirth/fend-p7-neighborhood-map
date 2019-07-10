@@ -19,8 +19,7 @@ For one version, I did not use a package. Ultimately, I decided the additional d
 I relied on the Doug Brown walkthrough for most of the lifecycle handling and handling state between the two components. Then I integrated the parts I had already figured out to bring back the project to being my own. The good news is I learned a lot and did some extra research along the way. 
 
 ## View Page
-### Online
-Not available at this time, will deploy from [react-gh-pages](https://github.com/gitname/react-gh-pages) in the future.
+### [Online](https://udacityneighborhoodmapproject.netlify.com/) 
 
 ### localhost
   1) ```clone https://github.com/crystal-dawn/udacity-fend-p7-neighborhood-map.git```
