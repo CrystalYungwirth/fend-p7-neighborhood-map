@@ -22,8 +22,8 @@ I relied on the Doug Brown walkthrough for most of the lifecycle handling and ha
 ### [Online](https://udacityneighborhoodmapproject.netlify.com/) 
 
 ### localhost
-  1) ```clone https://github.com/crystal-dawn/udacity-fend-p7-neighborhood-map.git```
-  2) ```cd udacity-fend-p7-neighborhood-map```
+  1) ```clone https://github.com/crystal-dawn/neighborhood-map.git```
+  2) ```cd neighborhood-map```
   3) ```npm i```
   4) ```npm start```
 
