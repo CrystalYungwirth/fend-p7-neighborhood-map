@@ -62,8 +62,8 @@ class MapContainer extends Component {
    */
   handleMarkerClick = (props, marker) => {
     //reusable variables
-    const clientId = "XRVYF1WW413WIF4WWPTNFVNPIPJUZ523J5X4HPT2D2DVP3JA";
-    const clientSecret = "I1E5B4PEZ1GC15IRSNC0YNGLTJLGFSYNTIWD3MGNJ4QRYTOA";
+    const clientId = process.env.FS_CLIENT_ID;
+    const clientSecret = process.env.FS_CLIENT_SECRET;
     const hostName = "https://api.foursquare.com/v2/venues/";
     const version = "20181105";
     //search variables
@@ -221,6 +221,7 @@ class MapContainer extends Component {
             {activeInfo && activeInfo.images ? (
               <React.Fragment>
                 <img
+                  className="foursquare-location-image"
                   alt={activeInfo && activeInfo.name}
                   src={
                     activeInfo &&
@@ -243,5 +244,5 @@ class MapContainer extends Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyDdaqZyf_ta1bZMQ4t7ihC09OgrAREotv8"
+  apiKey: process.env.GOOGLE_MAPS_API_KEY
 })(MapContainer);

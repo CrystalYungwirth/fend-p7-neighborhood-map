@@ -96,6 +96,10 @@ html {
   justify-content: space-between;
 }
 
+.foursquare-location-image {
+  width: 90%;
+}
+
 /***** React Component Slider *****/
 .component-slider {
   position: relative;

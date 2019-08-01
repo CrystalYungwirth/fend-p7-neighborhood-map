@@ -11,6 +11,7 @@ import Itinerary from "./components/Itinerary";
 import Attribution from "./components/Attribution";
 import Header from "./components/Header";
 import ErrorBoundary from "./components/ErrorBoundary";
+require('dotenv').config();
 
 export default class App extends Component {
   constructor(props) {
